@@ -18,8 +18,9 @@ class JavalinModelResolver(mapper: ObjectMapper) : ModelResolver(mapper) {
         }
         val type = extractJavaType(annotatedType)
 
-        if (type.isTypeOrSubTypeOf(Instant::class.java) && _mapper.isEnabled(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-            && annotatedType.ctxAnnotations.isEmpty()
+        if (
+            type.isTypeOrSubTypeOf(Instant::class.java) && _mapper.isEnabled(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            && (annotatedType.ctxAnnotations == null || annotatedType.ctxAnnotations.isEmpty())
         ) {
             return PrimitiveType.LONG.createProperty()
         }
